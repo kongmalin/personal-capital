@@ -5,34 +5,50 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class Portfolio {
 
-    private long mean;
-    private long sd;
+    private double initialAmount;
+    private double mean;
+    private double sd;
+    private double inflation;
+    private int numberOfSimulations;
+    private int periodInYear;
+
     private PortfolioType portfolioType;
     private Simulation simulation;
 
     public Portfolio() {
     }
 
-    public Portfolio(long mean, long sd, PortfolioType portfolioType) {
+    public Portfolio(double initialAmount, double mean, double sd, double inflation, int numberOfSimulations, int periodInYear) {
+        this.initialAmount = initialAmount;
         this.mean = mean;
         this.sd = sd;
-        this.portfolioType = portfolioType;
+        this.inflation = inflation;
+        this.numberOfSimulations = numberOfSimulations;
+        this.periodInYear = periodInYear;
         this.simulation = new Simulation(mean, sd);
     }
 
-    public long getMean() {
+    public double getInitialAmount() {
+        return initialAmount;
+    }
+
+    public void setInitialAmount(double initialAmount) {
+        this.initialAmount = initialAmount;
+    }
+
+    public double getMean() {
         return mean;
     }
 
-    public void setMean(long mean) {
+    public void setMean(double mean) {
         this.mean = mean;
     }
 
-    public long getSd() {
+    public double getSd() {
         return sd;
     }
 
-    public void setSd(long sd) {
+    public void setSd(double sd) {
         this.sd = sd;
     }
 
@@ -46,6 +62,30 @@ public class Portfolio {
 
     public Simulation getSimulation() {
         return simulation;
+    }
+
+    public double getInflation() {
+        return inflation;
+    }
+
+    public void setInflation(double inflation) {
+        this.inflation = inflation;
+    }
+
+    public int getNumberOfSimulations() {
+        return numberOfSimulations;
+    }
+
+    public void setNumberOfSimulations(int numberOfSimulations) {
+        this.numberOfSimulations = numberOfSimulations;
+    }
+
+    public int getPeriodInYear() {
+        return periodInYear;
+    }
+
+    public void setPeriodInYear(int periodInYear) {
+        this.periodInYear = periodInYear;
     }
 
     public void setSimulation(Simulation simulation) {
@@ -81,18 +121,6 @@ public class Portfolio {
 
         public void setDescriptiveStatistics(DescriptiveStatistics descriptiveStatistics) {
             this.descriptiveStatistics = descriptiveStatistics;
-        }
-
-        public void saveSimulationResult(double simResult) {
-            this.descriptiveStatistics.addValue(simResult);
-        }
-
-        public double nextSampleReturn() {
-            return this.normalDistribution.sample();
-        }
-
-        public double getPercentile(double n){
-            return this.descriptiveStatistics.getPercentile(n);
         }
     }
 
