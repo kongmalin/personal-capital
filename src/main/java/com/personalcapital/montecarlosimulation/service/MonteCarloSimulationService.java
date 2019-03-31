@@ -8,6 +8,7 @@ import com.personalcapital.montecarlosimulation.model.Portfolio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,18 +31,27 @@ public class MonteCarloSimulationService {
             List<Future<Portfolio>> portfolioList = new ArrayList<>();
 
             portfolioRequestList.forEach(portfolioRequest -> {
-                Portfolio portfolio = new Portfolio(
-                        portfolioRequest.getPortfolioType(),
-                        portfolioRequest.getInitialAmount(),
-                        portfolioRequest.getMean(),
-                        portfolioRequest.getSd(),
-                        portfolioRequest.getInflation(),
-                        portfolioRequest.getNumberOfSimulations(),
-                        portfolioRequest.getPeriodInYear()
-                );
-                PortfolioCallable portfolioRunnable = new PortfolioCallable(portfolio);
-                Future<Portfolio> portfolioFuture = threadPool.submit(portfolioRunnable);
-                portfolioList.add(portfolioFuture);
+                if (!StringUtils.isEmpty(portfolioRequest.getPortfolioType()) &&
+                        portfolioRequest.getInflation() != null &&
+                        portfolioRequest.getInitialAmount() != null &&
+                        portfolioRequest.getMean() != null &&
+                        portfolioRequest.getNumberOfSimulations() != null &&
+                        portfolioRequest.getPeriodInYear() != null &&
+                        portfolioRequest.getSd() != null
+                ) {
+                    Portfolio portfolio = new Portfolio(
+                            portfolioRequest.getPortfolioType(),
+                            portfolioRequest.getInitialAmount(),
+                            portfolioRequest.getMean(),
+                            portfolioRequest.getSd(),
+                            portfolioRequest.getInflation(),
+                            portfolioRequest.getNumberOfSimulations(),
+                            portfolioRequest.getPeriodInYear()
+                    );
+                    PortfolioCallable portfolioRunnable = new PortfolioCallable(portfolio);
+                    Future<Portfolio> portfolioFuture = threadPool.submit(portfolioRunnable);
+                    portfolioList.add(portfolioFuture);
+                }
             });
 
             threadPool.shutdown();
