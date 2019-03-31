@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
-    @Value("${thread_pool_size:10}")
+    @Value("${thread_pool_size:2}")
     public int threadPoolSize;
 
 }

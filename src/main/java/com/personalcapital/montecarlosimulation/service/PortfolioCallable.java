@@ -2,9 +2,15 @@ package com.personalcapital.montecarlosimulation.service;
 
 import com.personalcapital.montecarlosimulation.model.Portfolio;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.invoke.MethodHandles;
 import java.util.concurrent.Callable;
 
 public class PortfolioCallable implements Callable<Portfolio> {
+
+    private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     private Portfolio portfolio;
 
@@ -14,19 +20,21 @@ public class PortfolioCallable implements Callable<Portfolio> {
 
     @Override
     public Portfolio call() throws Exception {
+        logger.info("Running simulation for [portfolioType={}]", portfolio.getPortfolioType());
         try {
             for (int i = 0; i < portfolio.getNumberOfSimulations(); i++) {
                 double amount = portfolio.getInitialAmount();
-                double inflation = portfolio.getInflation();
+                double afterInflation = 1 - portfolio.getInflation();
                 for (int j = 0; j < portfolio.getPeriodInYear(); j++) {
-                    amount = amount * (1 + portfolio.getSimulation().getNormalDistribution().sample());
-                    amount = amount * (1 - inflation);
+                    amount = amount * (1 + portfolio.getStatisticalData().getNormalDistribution().sample());
+                    amount = amount * afterInflation;
                 }
-                portfolio.getSimulation().getDescriptiveStatistics().addValue(amount);
+                portfolio.getStatisticalData().getDescriptiveStatistics().addValue(amount);
             }
         } catch(Exception ex) {
-            ex.printStackTrace();
+            logger.error("Error occurred while running simulation for [portfolioType={}]", portfolio.getPortfolioType(), ex);
         }
+        logger.info("Finished running simulation for [portfolioType={}]", portfolio.getPortfolioType());
         return portfolio;
     }
 

@@ -1,19 +1,27 @@
 package com.personalcapital.montecarlosimulation.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 
-public class PortfolioRequest implements Serializable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class PortfolioRequest extends Portfolio implements Serializable {
 
     private static final long serialVersionUID = 5446262181779868137L;
 
-    private Double initialAmount;
-    private Double mean;
-    private Double sd;
-    private Double inflation;
-    private Integer numberOfSimulations;
-    private Integer periodInYear;
-
     public PortfolioRequest() {
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getPortfolioType() {
+        return portfolioType;
+    }
+
+    public void setPortfolioType(String portfolioType) {
+        this.portfolioType = portfolioType;
     }
 
     public Double getInitialAmount() {

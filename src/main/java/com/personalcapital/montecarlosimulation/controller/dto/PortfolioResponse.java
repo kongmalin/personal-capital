@@ -2,21 +2,23 @@ package com.personalcapital.montecarlosimulation.controller.dto;
 
 import java.io.Serializable;
 
-public class PortfolioResponse implements Serializable {
+public class PortfolioResponse extends Portfolio implements Serializable {
 
     private static final long serialVersionUID = -6339002160220409793L;
 
-    private Double initialAmount;
-    private Double mean;
-    private Double sd;
-    private Double inflation;
-    private Integer numberOfSimulations;
-    private Integer periodInYear;
     private Double median;
     private Double tenPercentBestCase;
     private Double tenPercentWorstCase;
 
     public PortfolioResponse() {
+    }
+
+    public String getPortfolioType() {
+        return portfolioType;
+    }
+
+    public void setPortfolioType(String portfolioType) {
+        this.portfolioType = portfolioType;
     }
 
     public Double getInitialAmount() {
@@ -89,6 +91,22 @@ public class PortfolioResponse implements Serializable {
 
     public void setTenPercentWorstCase(Double tenPercentWorstCase) {
         this.tenPercentWorstCase = tenPercentWorstCase;
+    }
+
+    @Override
+    public String toString() {
+        return "PortfolioResponse{" +
+                "portfolioType='" + portfolioType + '\'' +
+                ", initialAmount=" + initialAmount +
+                ", mean=" + mean +
+                ", sd=" + sd +
+                ", inflation=" + inflation +
+                ", numberOfSimulations=" + numberOfSimulations +
+                ", periodInYear=" + periodInYear +
+                ", median=" + median +
+                ", tenPercentBestCase=" + tenPercentBestCase +
+                ", tenPercentWorstCase=" + tenPercentWorstCase +
+                '}';
     }
 
 }

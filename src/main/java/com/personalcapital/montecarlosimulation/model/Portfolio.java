@@ -5,27 +5,35 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
 public class Portfolio {
 
+    private String portfolioType;
     private double initialAmount;
     private double mean;
     private double sd;
     private double inflation;
     private int numberOfSimulations;
     private int periodInYear;
-
-    private PortfolioType portfolioType;
-    private Simulation simulation;
+    private StatisticalData statisticalData;
 
     public Portfolio() {
     }
 
-    public Portfolio(double initialAmount, double mean, double sd, double inflation, int numberOfSimulations, int periodInYear) {
+    public Portfolio(String portfolioType, double initialAmount, double mean, double sd, double inflation, int numberOfSimulations, int periodInYear) {
+        this.portfolioType = portfolioType;
         this.initialAmount = initialAmount;
         this.mean = mean;
         this.sd = sd;
         this.inflation = inflation;
         this.numberOfSimulations = numberOfSimulations;
         this.periodInYear = periodInYear;
-        this.simulation = new Simulation(mean, sd);
+        this.statisticalData = new StatisticalData(mean, sd);
+    }
+
+    public String getPortfolioType() {
+        return portfolioType;
+    }
+
+    public void setPortfolioType(String portfolioType) {
+        this.portfolioType = portfolioType;
     }
 
     public double getInitialAmount() {
@@ -52,16 +60,8 @@ public class Portfolio {
         this.sd = sd;
     }
 
-    public PortfolioType getPortfolioType() {
-        return portfolioType;
-    }
-
-    public void setPortfolioType(PortfolioType portfolioType) {
-        this.portfolioType = portfolioType;
-    }
-
-    public Simulation getSimulation() {
-        return simulation;
+    public StatisticalData getStatisticalData() {
+        return statisticalData;
     }
 
     public double getInflation() {
@@ -88,21 +88,16 @@ public class Portfolio {
         this.periodInYear = periodInYear;
     }
 
-    public void setSimulation(Simulation simulation) {
-        this.simulation = simulation;
+    public void setStatisticalData(StatisticalData statisticalData) {
+        this.statisticalData = statisticalData;
     }
 
-    public enum PortfolioType {
-        AGGRESSIVE,
-        VERY_CONSERVATIVE
-    }
-
-    public static class Simulation{
+    public static class StatisticalData {
 
         private NormalDistribution normalDistribution;
         private DescriptiveStatistics descriptiveStatistics;
 
-        public Simulation(double mean, double standardDeviation) {
+        public StatisticalData(double mean, double standardDeviation) {
             this.normalDistribution = new NormalDistribution(mean, standardDeviation);
             this.descriptiveStatistics = new DescriptiveStatistics();
         }

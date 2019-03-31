@@ -27,10 +27,11 @@ public class MonteCarloSimulationService {
     public List<PortfolioResponse> runMonteCarloSimulation(List<PortfolioRequest> portfolioRequestList) {
         if (!CollectionUtils.isEmpty(portfolioRequestList)) {
             ExecutorService threadPool = Executors.newFixedThreadPool(appConfig.threadPoolSize);
-            List<Portfolio> portfolioList = new ArrayList<>();
+            List<Future<Portfolio>> portfolioList = new ArrayList<>();
 
             portfolioRequestList.forEach(portfolioRequest -> {
                 Portfolio portfolio = new Portfolio(
+                        portfolioRequest.getPortfolioType(),
                         portfolioRequest.getInitialAmount(),
                         portfolioRequest.getMean(),
                         portfolioRequest.getSd(),
@@ -40,26 +41,29 @@ public class MonteCarloSimulationService {
                 );
                 PortfolioCallable portfolioRunnable = new PortfolioCallable(portfolio);
                 Future<Portfolio> portfolioFuture = threadPool.submit(portfolioRunnable);
-                try {
-                    portfolioList.add(portfolioFuture.get());
-                } catch (InterruptedException | ExecutionException ex) {
-                    ex.printStackTrace();
-                }
+                portfolioList.add(portfolioFuture);
             });
 
             threadPool.shutdown();
 
-            return portfolioList.stream().map(portfolio -> {
+            return portfolioList.stream().map(portfolioFuture -> {
+                Portfolio portfolio = null;
+                try {
+                    portfolio = portfolioFuture.get();
+                } catch (InterruptedException | ExecutionException ex) {
+                    ex.printStackTrace();
+                }
                 PortfolioResponse portfolioResponse = new PortfolioResponse();
+                portfolioResponse.setPortfolioType(portfolio.getPortfolioType());
                 portfolioResponse.setInitialAmount(portfolio.getInitialAmount());
                 portfolioResponse.setMean(portfolio.getMean());
                 portfolioResponse.setSd(portfolio.getSd());
                 portfolioResponse.setInflation(portfolio.getInflation());
                 portfolioResponse.setNumberOfSimulations(portfolio.getNumberOfSimulations());
                 portfolioResponse.setPeriodInYear(portfolio.getPeriodInYear());
-                portfolioResponse.setMedian(portfolio.getSimulation().getDescriptiveStatistics().getPercentile(50));
-                portfolioResponse.setTenPercentBestCase(portfolio.getSimulation().getDescriptiveStatistics().getPercentile(90));
-                portfolioResponse.setTenPercentWorstCase(portfolio.getSimulation().getDescriptiveStatistics().getPercentile(10));
+                portfolioResponse.setMedian(portfolio.getStatisticalData().getDescriptiveStatistics().getPercentile(50));
+                portfolioResponse.setTenPercentBestCase(portfolio.getStatisticalData().getDescriptiveStatistics().getPercentile(90));
+                portfolioResponse.setTenPercentWorstCase(portfolio.getStatisticalData().getDescriptiveStatistics().getPercentile(10));
                 return portfolioResponse;
             }).collect(Collectors.toList());
         }
