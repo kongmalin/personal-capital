@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.personalcapital</groupId>
-    <artifactId>monte-carlo-statisticalData</artifactId>
+    <artifactId>monte-carlo-simulation</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>monte-carlo-statisticalData</name>
     <description>Monte Carlo Simulation</description>

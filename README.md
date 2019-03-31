@@ -38,9 +38,9 @@
             "inflation": 0.035,
             "numberOfSimulations": 10000,
             "periodInYear": 20,
-            "median": 243673.69956114597,
-            "tenPercentBestCase": 550216.1578462558,
-            "tenPercentWorstCase": 102896.78533022427
+            "median": 243673.69,
+            "tenPercentBestCase": 550216.15,
+            "tenPercentWorstCase": 102896.78
         },
         {
             "portfolioType": "veryConservative",
@@ -50,13 +50,13 @@
             "inflation": 0.035,
             "numberOfSimulations": 10000,
             "periodInYear": 20,
-            "median": 156757.77103304403,
-            "tenPercentBestCase": 221459.64195315368,
-            "tenPercentWorstCase": 111773.8277371144
+            "median": 156757.77,
+            "tenPercentBestCase": 221459.64,
+            "tenPercentWorstCase": 111773.82
         }
     ]
     ```
 
 2. How to test the program:
 - You can test from postman with the sample request and response above by starting the program by running the file MonteCarloSimulationApplication.java. The service will start on port 8080.
-- Or you can run the unit tests controller or service in test package.
+- Or you can run the unit controller or service tests in the test package.

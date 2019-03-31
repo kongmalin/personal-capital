@@ -1,5 +1,7 @@
 package com.personalcapital.montecarlosimulation.controller.dto;
 
+import org.apache.commons.math3.util.Precision;
+
 import java.io.Serializable;
 
 public class PortfolioResponse extends Portfolio implements Serializable {
@@ -74,7 +76,7 @@ public class PortfolioResponse extends Portfolio implements Serializable {
     }
 
     public void setMedian(Double median) {
-        this.median = median;
+        this.median = Precision.round(median, 2);
     }
 
     public Double getTenPercentBestCase() {
@@ -82,7 +84,7 @@ public class PortfolioResponse extends Portfolio implements Serializable {
     }
 
     public void setTenPercentBestCase(Double tenPercentBestCase) {
-        this.tenPercentBestCase = tenPercentBestCase;
+        this.tenPercentBestCase = Precision.round(tenPercentBestCase, 2);
     }
 
     public Double getTenPercentWorstCase() {
@@ -90,7 +92,7 @@ public class PortfolioResponse extends Portfolio implements Serializable {
     }
 
     public void setTenPercentWorstCase(Double tenPercentWorstCase) {
-        this.tenPercentWorstCase = tenPercentWorstCase;
+        this.tenPercentWorstCase = Precision.round(tenPercentWorstCase, 2);
     }
 
     @Override
