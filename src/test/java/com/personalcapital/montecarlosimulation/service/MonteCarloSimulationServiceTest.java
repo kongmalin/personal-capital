@@ -16,7 +16,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MonteCarloStatisticalDataServiceTest {
+public class MonteCarloSimulationServiceTest {
 
     @Autowired
     private MonteCarloSimulationService monteCarloSimulationService;
@@ -35,6 +35,29 @@ public class MonteCarloStatisticalDataServiceTest {
         List<PortfolioResponse> responseList = monteCarloSimulationService.runMonteCarloSimulation(Arrays.asList(test, aggressive, veryConservative));
         Assert.assertTrue(!responseList.isEmpty());
         Assert.assertEquals(3, responseList.size());
+        responseList.forEach(portfolioResponse -> {
+            if (portfolioResponse.getPortfolioType().equals(test.getPortfolioType())) {
+                comparePortfolios(test, portfolioResponse);
+            } else if (portfolioResponse.getPortfolioType().equals(aggressive.getPortfolioType())) {
+                comparePortfolios(aggressive, portfolioResponse);
+            } else {
+                comparePortfolios(veryConservative, portfolioResponse);
+            }
+        });
+    }
+
+    private void comparePortfolios(PortfolioRequest portfolioRequest, PortfolioResponse portfolioResponse) {
+        Assert.assertEquals(portfolioRequest.getPortfolioType(), portfolioResponse.getPortfolioType());
+        Assert.assertEquals(portfolioRequest.getInitialAmount(), portfolioResponse.getInitialAmount());
+        Assert.assertEquals(portfolioRequest.getInflation(), portfolioResponse.getInflation());
+        Assert.assertEquals(portfolioRequest.getMean(), portfolioResponse.getMean());
+        Assert.assertEquals(portfolioRequest.getNumberOfSimulations(), portfolioResponse.getNumberOfSimulations());
+        Assert.assertEquals(portfolioRequest.getPeriodInYear(), portfolioResponse.getPeriodInYear());
+        Assert.assertEquals(portfolioRequest.getSd(), portfolioResponse.getSd());
+        Assert.assertTrue(portfolioResponse.getInitialAmount() < portfolioResponse.getMedian() &&
+                portfolioResponse.getInitialAmount() < portfolioResponse.getTenPercentWorstCase() &&
+                portfolioResponse.getMedian() < portfolioResponse.getTenPercentBestCase() &&
+                portfolioResponse.getMedian() > portfolioResponse.getTenPercentWorstCase());
     }
 
     private PortfolioRequest createPortfolioRequest(String portfolioType, double initialAmount, double inflation, double mean, double sd, int periodInYear, int numberOfSimulation) {

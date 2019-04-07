@@ -7,12 +7,17 @@ public class Portfolio {
 
     private String portfolioType;
     private double initialAmount;
+    // return as double
     private double mean;
+    // risk as double
     private double sd;
     private double inflation;
     private int numberOfSimulations;
     private int periodInYear;
-    private StatisticalData statisticalData;
+    // use to draw random sample data with mean and sd
+    private NormalDistribution normalDistribution;
+    // simulation history data
+    private simulationData simulationData;
 
     public Portfolio() {
     }
@@ -25,7 +30,8 @@ public class Portfolio {
         this.inflation = inflation;
         this.numberOfSimulations = numberOfSimulations;
         this.periodInYear = periodInYear;
-        this.statisticalData = new StatisticalData(mean, sd);
+        this.normalDistribution = new NormalDistribution(mean, sd);
+        this.simulationData = new simulationData();
     }
 
     public String getPortfolioType() {
@@ -60,8 +66,8 @@ public class Portfolio {
         this.sd = sd;
     }
 
-    public StatisticalData getStatisticalData() {
-        return statisticalData;
+    public simulationData getSimulationData() {
+        return simulationData;
     }
 
     public double getInflation() {
@@ -88,26 +94,24 @@ public class Portfolio {
         this.periodInYear = periodInYear;
     }
 
-    public void setStatisticalData(StatisticalData statisticalData) {
-        this.statisticalData = statisticalData;
+    public void setSimulationData(simulationData simulationData) {
+        this.simulationData = simulationData;
     }
 
-    public static class StatisticalData {
+    public NormalDistribution getNormalDistribution() {
+        return normalDistribution;
+    }
 
-        private NormalDistribution normalDistribution;
+    public void setNormalDistribution(NormalDistribution normalDistribution) {
+        this.normalDistribution = normalDistribution;
+    }
+
+    public static class simulationData {
+        // use to store dataset of each calculation and compute descriptive statistics
         private DescriptiveStatistics descriptiveStatistics;
 
-        public StatisticalData(double mean, double standardDeviation) {
-            this.normalDistribution = new NormalDistribution(mean, standardDeviation);
+        public simulationData() {
             this.descriptiveStatistics = new DescriptiveStatistics();
-        }
-
-        public NormalDistribution getNormalDistribution() {
-            return normalDistribution;
-        }
-
-        public void setNormalDistribution(NormalDistribution normalDistribution) {
-            this.normalDistribution = normalDistribution;
         }
 
         public DescriptiveStatistics getDescriptiveStatistics() {

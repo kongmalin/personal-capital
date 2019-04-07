@@ -72,4 +72,16 @@ public class PortfolioRequest extends Portfolio implements Serializable {
         this.periodInYear = periodInYear;
     }
 
+    @Override
+    public String toString() {
+        return "PortfolioRequest{" +
+                "portfolioType='" + portfolioType + '\'' +
+                ", initialAmount=" + initialAmount +
+                ", mean=" + mean +
+                ", sd=" + sd +
+                ", inflation=" + inflation +
+                ", numberOfSimulations=" + numberOfSimulations +
+                ", periodInYear=" + periodInYear +
+                '}';
+    }
 }

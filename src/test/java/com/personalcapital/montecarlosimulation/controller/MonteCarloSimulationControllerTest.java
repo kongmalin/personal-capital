@@ -51,7 +51,7 @@ public class MonteCarloSimulationControllerTest {
     }
 
     @Test
-    public void testCalculateMonteCarlo_noContent() throws JsonProcessingException {
+    public void testCalculateMonteCarlo_noContent() {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ResponseEntity<Object> responseEntity = testRestTemplate.exchange("/monte-carlo", HttpMethod.POST, new HttpEntity<>("[{}]", headers), Object.class);

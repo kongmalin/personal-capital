@@ -6,7 +6,7 @@
     <groupId>com.personalcapital</groupId>
     <artifactId>monte-carlo-simulation</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>monte-carlo-statisticalData</name>
+    <name>monte-carlo-simulatio</name>
     <description>Monte Carlo Simulation</description>
 
     <parent>

@@ -6,24 +6,24 @@
     - Sample request:
     ```json
     [
-      {
-        "portfolioType": "aggressinve",
-        "initialAmount": 100000,
-        "mean": 0.094324,
-        "sd": 0.15675,
-        "inflation": 0.035,
-        "numberOfSimulations": 10000,
-        "periodInYear": 20
-      },
-      {
-        "portfolioType": "veryConservative",
-        "initialAmount": 100000,
-        "mean": 0.06189,
-        "sd": 0.063438,
-        "inflation": 0.035,
-        "numberOfSimulations": 10000,
-        "periodInYear": 20
-      }
+        {
+            "portfolioType": "aggressinve",
+            "initialAmount": 100000,
+            "mean": 0.094324,
+            "sd": 0.15675,
+            "inflation": 0.035,
+            "numberOfSimulations": 10000,
+            "periodInYear": 20
+        },
+        {
+            "portfolioType": "veryConservative",
+            "initialAmount": 100000,
+            "mean": 0.06189,
+            "sd": 0.063438,
+            "inflation": 0.035,
+            "numberOfSimulations": 10000,
+            "periodInYear": 20
+        }
     ]
     ```
 
@@ -58,5 +58,5 @@
     ```
 
 2. How to test the program:
-- You can test from postman with the sample request and response above by starting the program by running the file MonteCarloSimulationApplication.java. The service will start on port 8080.
-- Or you can run the unit controller or service tests in the test package.
+- You can test from postman (http://localhost:8088/api/monte-carlo) with the sample request and response above by starting the program by running the file MonteCarloSimulationApplication.java.
+- Or you can run the unit tests from the test package.

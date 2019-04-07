@@ -15,12 +15,24 @@ public class ControllerAdvise {
 
     private static final Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    /**
+     * Handle general exception
+     *
+     * @param ex
+     * @return ErrorResult
+     */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResult> defaultErrorHandler(Exception ex) {
         logger.error(ex.getMessage(), ex);
         return new ResponseEntity<>(new ErrorResult(HttpStatus.INTERNAL_SERVER_ERROR.name(), ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /**
+     * Handle http message not readable exception
+     *
+     * @param ex
+     * @return ErrorResult
+     */
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResult> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
         logger.error(ex.getMessage(), ex);
